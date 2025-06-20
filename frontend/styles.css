@@ -1,0 +1,131 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 40px 20px;
+  background: linear-gradient(to right, #c9d6ff, #e2e2e2);
+  color: #333;
+}
+
+h1 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  color: #1a1a1a;
+}
+
+form {
+  max-width: 500px;
+  margin: 0 auto 40px;
+  padding: 25px;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  transition: 0.3s ease;
+}
+
+input, textarea, select {
+  width: 100%;
+  padding: 14px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  background: #f4f4f4;
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.05);
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  background: #fff;
+  box-shadow: 0 0 0 2px #007bff55;
+}
+
+button[type="submit"] {
+  width: 100%;
+  padding: 14px;
+  font-size: 1.1rem;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button[type="submit"]:hover {
+  background-color: #43a047;
+}
+
+#listaTareas {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.tarea {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  padding: 20px;
+  margin-bottom: 20px;
+  border-left: 6px solid #007bff;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease;
+}
+
+.tarea:hover {
+  transform: scale(1.01);
+}
+
+.tarea span {
+  font-weight: bold;
+  font-size: 1.3rem;
+  display: block;
+  margin-bottom: 8px;
+  color: #222;
+}
+
+.tarea p {
+  margin: 8px 0;
+  font-size: 1rem;
+}
+
+.tarea em {
+  display: block;
+  color: #666;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+
+.tarea button {
+  margin-right: 10px;
+  padding: 10px 14px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background 0.3s ease;
+}
+
+.tarea button:first-of-type {
+  background-color: #ffc107;
+  color: #212529;
+}
+
+.tarea button:first-of-type:hover {
+  background-color: #e0a800;
+}
+
+.tarea button:last-of-type {
+  background-color: #e53935;
+  color: white;
+}
+
+.tarea button:last-of-type:hover {
+  background-color: #c62828;
+}
