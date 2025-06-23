@@ -12,16 +12,21 @@
   <h1>📝 Lista de Tareas</h1>
 
   <form onsubmit="agregarTarea(); return false;">
-    <input type="text" id="nombre" placeholder="Tu nombre" required><br>
-    <input type="email" id="correo" placeholder="Tu correo" required><br>
-    <input type="text" id="titulo" placeholder="Título de la tarea" required><br>
-    <textarea id="descripcion" placeholder="Descripción de la tarea"></textarea><br>
-    <select id="estado">
-      <option value="pendiente">Pendiente</option>
-      <option value="completada">Completada</option>
-    </select><br>
-    <button type="submit">Agregar Tarea</button>
-  </form>
+  <input type="text" id="nombre" placeholder="Tu nombre" required><br>
+  <input type="email" id="correo" placeholder="Tu correo" required><br>
+  <input type="text" id="titulo" placeholder="Título de la tarea" required><br>
+  <textarea id="descripcion" placeholder="Descripción de la tarea"></textarea><br>
+  
+  <label for="fecha_ingreso">Fecha de ingreso:</label><br>
+  <input type="date" id="fecha_ingreso" required><br>
+
+  <select id="estado">
+    <option value="pendiente">Pendiente</option>
+    <option value="completada">Completada</option>
+  </select><br>
+  <button type="submit">Agregar Tarea</button>
+</form>
+
 
   <div id="listaTareas">
     <!-- Aquí se cargarán las tareas -->

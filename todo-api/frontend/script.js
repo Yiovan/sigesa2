@@ -17,70 +17,79 @@ function fetchTareas() {
       }
 
       data.forEach(t => {
-        const div = document.createElement("div");
-        div.classList.add("tarea");
+  const div = document.createElement("div");
+  div.classList.add("tarea");
 
-        div.innerHTML = `
-          <span><strong>${t.titulo}</strong> (${t.estado})</span>
-          <p>${t.descripcion}</p>
-          <em>${t.nombre} - ${t.correo}</em><br>
-          <button onclick="marcarCompletada(${t.id})">✔ Completar</button>
-          <button onclick="eliminarTarea(${t.id})">✖ Eliminar</button>
-        `;
+  const fecha = new Date(t.fecha_creacion).toLocaleDateString('es-ES', {
+    year: 'numeric', month: 'long', day: 'numeric'
+  });
 
-        contenedor.appendChild(div);
-      });
+  div.innerHTML = `
+    <span><strong>${t.titulo}</strong> (${t.estado})</span>
+    <p>${t.descripcion}</p>
+    <em>${t.nombre} - ${t.correo}</em><br>
+    <small>📅 Creado el: ${fecha}</small><br>
+    <button onclick="marcarCompletada(${t.id})" style="background-color: gold;">✔ Completar</button>
+    <button onclick="eliminarTarea(${t.id})" style="background-color: crimson; color: white;">✖ Eliminar</button>
+  `;
+
+  contenedor.appendChild(div);
+});
+
     })
     .catch(err => console.error("❌ Error al cargar tareas:", err));
 }
 
 function agregarTarea() {
-  const nombre = document.getElementById("nombre").value.trim();
-  const correo = document.getElementById("correo").value.trim();
-  const titulo = document.getElementById("titulo").value.trim();
-  const descripcion = document.getElementById("descripcion").value.trim();
+  const nombre = document.getElementById("nombre").value;
+  const correo = document.getElementById("correo").value;
+  const titulo = document.getElementById("titulo").value;
+  const descripcion = document.getElementById("descripcion").value;
   const estado = document.getElementById("estado").value;
 
-  if (!nombre || !correo || !titulo) {
-    alert("Nombre, correo y título son obligatorios.");
-    return;
-  }
-
-  const tarea = { nombre, correo, titulo, descripcion, estado };
-  console.log("📤 Enviando tarea:", tarea);
-
-  fetch(API_URL, {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify(tarea)
-})
-
-    .then(res => res.json())
-    .then(response => {
-      console.log("✅ Respuesta del servidor:", response);
-      document.getElementById("titulo").value = "";
-      document.getElementById("descripcion").value = "";
-      fetchTareas();
-    })
-    .catch(err => console.error("❌ Error al agregar tarea:", err));
+  fetch(API_URL, { // <-- Aquí está la corrección
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ nombre, correo, titulo, descripcion, estado })
+  })
+  .then(res => res.json())
+  .then(res => {
+    console.log(res);
+    fetchTareas();  // Actualiza la lista tras insertar
+  })
+  .catch(err => console.error("❌ Error al agregar tarea:", err));
 }
+
 
 function marcarCompletada(id) {
-  fetch(API_URL, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ id })
-  })
+  // Buscar la tarea por ID para traer su título y descripción actuales
+  fetch(`${API_URL}?id=${id}`)
     .then(res => res.json())
-    .then(() => fetchTareas());
+    .then(tarea => {
+      fetch(`${API_URL}?id=${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          titulo: tarea.titulo,
+          descripcion: tarea.descripcion,
+          estado: "completada"
+        })
+      })
+      .then(res => res.json())
+      .then(() => fetchTareas())
+      .catch(err => console.error("❌ Error al actualizar:", err));
+      console.log(`Tarea con ID ${id} marcada como completada.`);
+    });
 }
 
+
 function eliminarTarea(id) {
-  fetch(API_URL, {
-    method: "DELETE",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ id })
-  })
-    .then(res => res.json())
-    .then(() => fetchTareas());
+  fetch(`${API_URL}?id=${id}`, {
+  method: "DELETE"
+})
+.then(res => res.json())
+.then(() => fetchTareas())
+.catch(err => console.error("❌ Error al eliminar:", err));
+
+  console.log(`Tarea con ID ${id} eliminada.`);
 }
